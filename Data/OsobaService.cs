@@ -13,27 +13,24 @@ namespace Prezenty.Data
         {
             Osoby.Add(new Osoba() { 
                 Imie ="Daniel",
-                Nazwiso ="Kasprzyk",
+                Nazwisko ="Kasprzyk",
                 Wiek = 24,
-                PrezentOd = "Mikołaj",
                 Zaslozyl = false
             });
 
             Osoby.Add(new Osoba()
             {
                 Imie = "Elvior",
-                Nazwiso = "RavenClan",
+                Nazwisko = "RavenClan",
                 Wiek = 25,
-                PrezentOd = "Sigurd",
                 Zaslozyl = false
             });
 
             Osoby.Add(new Osoba()
             {
                 Imie = "Jhon",
-                Nazwiso = "Snow",
+                Nazwisko = "Snow",
                 Wiek = 20,
-                PrezentOd = "Daenerys",
                 Zaslozyl = true
             });
         }
@@ -41,6 +38,51 @@ namespace Prezenty.Data
         public static Task<List<Osoba>> PobierzLsteOsobAsync()
         {
             return Task.FromResult(Osoby);
+        }
+
+        public static void WylosujOsobAsync()
+        {
+            Osoba wylosowanaOsoba;
+
+            List<Osoba> pozostałeOsobyDoWylosowania = Osoby.GetRange(0, Osoby.Count);
+
+            if (Osoby.Count == 2)
+            {
+                Osoby[0].PrezentOd = Osoby[1].Nazwisko;
+                Osoby[1].PrezentOd = Osoby[0].Nazwisko;
+            }
+            else if (Osoby.Count > 2)
+            {
+                foreach (Osoba osoba in Osoby)
+                {
+                    if (pozostałeOsobyDoWylosowania.Count > 0)
+                    {
+                        wylosowanaOsoba = Losuj(pozostałeOsobyDoWylosowania);
+                        while (osoba.Nazwisko == wylosowanaOsoba.Nazwisko || wylosowanaOsoba.PrezentOd == osoba.Nazwisko)
+                        {
+                            wylosowanaOsoba = Losuj(pozostałeOsobyDoWylosowania);
+                        }
+                        pozostałeOsobyDoWylosowania.Remove(wylosowanaOsoba);
+                        osoba.PrezentOd = wylosowanaOsoba.Nazwisko;
+                    }
+                    else
+                    {
+                        osoba.PrezentOd = "BRAK DOPASOWANIA";
+                    }
+                }
+            }
+            else
+            {
+                if (Osoby.Count == 1)
+                {
+                    Osoby[0].PrezentOd = "BRAK DOPASOWANIA";
+                }
+            }
+        }
+
+        private static Osoba Losuj(List<Osoba> randomFrom)
+        {
+            return randomFrom[new Random().Next(randomFrom.Count)];
         }
     }
 }

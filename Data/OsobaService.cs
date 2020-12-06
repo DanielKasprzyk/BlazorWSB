@@ -84,5 +84,16 @@ namespace Prezenty.Data
         {
             return randomFrom[new Random().Next(randomFrom.Count)];
         }
+
+        public static void Dodaj(string newName, string newSurname, int age, bool good = true)
+        {
+            Osoby.Add(new Osoba()
+            {
+                Imie = newName,
+                Nazwisko = newSurname,
+                Wiek = age,
+                Zaslozyl = good
+            });
+        }
     }
 }

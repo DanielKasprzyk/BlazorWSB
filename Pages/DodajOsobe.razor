@@ -1,0 +1,32 @@
+﻿@page "/dodaj"
+
+@using Prezenty.Data
+
+@inject OsobaService osobaService
+<h3>DodajOsobe</h3>
+
+<form>
+    <div class="form-group">
+        <label> Wiek </label>
+        <input class="form-control" @bind="newImie" />
+    </div>
+    <div class="form-group">
+        <label> Wiek </label>
+        <input class="form-control" @bind="newNazwisko" />
+    </div>
+    <div class="form-group">
+        <label> Wiek </label>
+        <input class="form-control" @bind="newWiek" />
+    </div>
+    <button @onclick="Dodaj" class="btn btn-primary">Dodaj</button>
+</form>
+
+@code {
+    private string newImie;
+    private string newNazwisko;
+    private int newWiek;
+    private void Dodaj()
+    {
+        OsobaService.Dodaj(newImie, newNazwisko, newWiek);
+    }
+}

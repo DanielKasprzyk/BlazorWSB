@@ -1,0 +1,53 @@
+﻿@page "/obdarowani"
+
+@using Prezenty.Data
+
+@inject OsobaService osobaService
+
+<h1>
+    Lista osob do obdarowania
+</h1>
+
+
+
+@if (listaOsob == null)
+{
+    <p><em>Ładowanie danych...</em></p>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Imie</th>
+                <th scope="col">Nazwisko</th>
+                <th scope="col">Wiek</th>
+                <th scope="col">Zasłużył</th>
+                <th scope="col">Od kogo prezent</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Osoba osoba in listaOsob)
+            {
+                <tr>
+                    <td> @listaOsob.IndexOf(osoba)</td>
+                    <td> @osoba.Imie</td>
+                    <td> @osoba.Nazwiso</td>
+                    <td> @osoba.Wiek</td>
+                    <td> @osoba.Zaslozyl</td>
+                    <td> @osoba.PrezentOd</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code  {
+    private List<Osoba> listaOsob;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaOsob = await OsobaService.PobierzLsteOsobAsync();
+    }
+} 
